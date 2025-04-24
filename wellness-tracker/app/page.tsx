@@ -32,13 +32,23 @@ export default function WeatherMotivator() {
       fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&appid=YOUR_OPENWEATHER_API_KEY`)
         .then(res => res.json())
         .then(data => setWeather(data));
-
-      fetch('https://zenquotes.io/api/random')
-        .then(res => res.json())
-        .then(data => setQuote(data[0]?.q + ' — ' + data[0]?.a));
     }
   }, [location]);
 
+  const fetchQuote = async (type: 'random' | 'today') => {
+    try {
+      const response = await fetch('/api/zenquote');
+      const data = await response.json();
+      setQuote(`${data[0]?.q} — ${data[0]?.a}`);
+    } catch (err) {
+      console.error('Quote fetch error:', err);
+      setQuote('Failed to fetch quote.');
+    }
+  };
+
+  useEffect(() => {
+    fetchQuote('random');
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -52,7 +62,16 @@ export default function WeatherMotivator() {
           <a href="#" className="hover:underline">About</a>
         </div>
       </header>
-    
+
+      {/* Hero Section */}
+      <section className="grid grid-cols-2 gap-4 p-6">
+        <Card>
+          <CardContent className="p-4">PIC</CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">PIC</CardContent>
+        </Card>
+      </section>
 
       {/* Main Content Section */}
       <main className="flex flex-1 p-6 gap-6">
@@ -68,7 +87,11 @@ export default function WeatherMotivator() {
           <Card className="h-full">
             <CardContent className="p-4 h-full">
               <h2 className="font-semibold mb-2">Quotes:</h2>
-              <p>{quote || 'Loading...'}</p>
+              <p className="mb-4">{quote || 'Loading...'}</p>
+              <div className="flex gap-2">
+                <Button onClick={() => fetchQuote('random')}>Random Quote</Button>
+                <Button onClick={() => fetchQuote('today')}>Daily Quote</Button>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -80,19 +103,9 @@ export default function WeatherMotivator() {
         <p>This site was built to inspire people through the weather and quotes. Made with love using OpenWeather and ZenQuotes APIs.</p>
       </section>
 
-        {/* Hero Section */}
-        <section className="grid grid-cols-2 gap-4 p-6">
-        <Card>
-          <CardContent className="p-4">PIC</CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">PIC</CardContent>
-        </Card>
-      </section>
-
       {/* Footer */}
       <footer className="p-4 border-t text-center text-sm">
-        Credits: OpenWeatherAPI, ZenQuotes API, and more...
+        Credits: <a href="https://openweathermap.org/" target="_blank" className="underline">OpenWeatherAPI</a>, <a href="https://zenquotes.io/" target="_blank" className="underline">ZenQuotes API</a>
       </footer>
     </div>
   );
