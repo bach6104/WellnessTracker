@@ -17,14 +17,28 @@ export default function WeatherMotivator() {
   const [location, setLocation] = useState<{ lat: number, lon: number } | null>(null);
   const [weather, setWeather] = useState<any>(null);
   const [quote, setQuote] = useState<string>('');
+  const [locationError, setLocationError] = useState<string>('');
 
-  useEffect(() => {
+  const requestLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser.');
+      return;
+    }
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
+        setLocationError('');
       },
-      (error) => console.error('Geolocation error:', error)
+      (error) => {
+        console.error('Geolocation error:', error);
+        setLocationError('Permission denied or location unavailable. Please allow location access.');
+      }
     );
+  };
+
+  useEffect(() => {
+    requestLocation();
   }, []);
 
   useEffect(() => {
@@ -77,6 +91,7 @@ export default function WeatherMotivator() {
       <main className="flex flex-1 p-6 gap-6">
         {/* Left Column */}
         <div className="flex flex-col gap-4 w-1/2">
+          {locationError && <p className="text-red-500">{locationError}</p>}
           <WeatherCard title="Present Weather" content={weather?.weather?.[0]?.description || 'Loading...'} />
           <WeatherCard title="Temperature" content={weather?.main?.temp ? `${weather.main.temp} °C` : 'Loading...'} />
           <WeatherCard title="Weather for Next 7 Days" content="(To be implemented with OneCall API)" />
