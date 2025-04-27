@@ -1,54 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { TodaySummary } from '@/components/Weather/TodaySummary';
+import { WeatherImage } from '@/components/Weather/WeatherImage';
+import { UpcomingForecast } from '@/components/Weather/UpcomingForecast';
 import { Button } from '@/components/ui/button';
+import { CardContent, Card } from '@/components/ui/card';
+import useWeatherData from '@/components/hooks/useWeatherData';
+// import { fetchQuote } from '@/components/hooks/useQuote';
 
-const WeatherCard = ({ title, content }: { title: string, content: string }) => (
-  <Card>
-    <CardContent className="p-4">
-      <h2 className="font-semibold mb-2">{title}</h2>
-      <p>{content}</p>
-    </CardContent>
-  </Card>
-);
-
-export default function WeatherMotivator() {
-  const [location, setLocation] = useState<{ lat: number, lon: number } | null>(null);
-  const [weather, setWeather] = useState<any>(null);
+const Page = () => {
+  const { weatherData, loading, error } = useWeatherData();
   const [quote, setQuote] = useState<string>('');
-  const [locationError, setLocationError] = useState<string>('');
+  const [locationError, setLocationError] = useState('');
 
-  const requestLocation = () => {
-    if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by your browser.');
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
-        setLocationError('');
-      },
-      (error) => {
-        console.error('Geolocation error:', error);
-        setLocationError('Permission denied or location unavailable. Please allow location access.');
-      }
-    );
-  };
-
-  useEffect(() => {
-    requestLocation();
-  }, []);
-
-  useEffect(() => {
-    if (location) {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&appid=YOUR_OPENWEATHER_API_KEY`)
-        .then(res => res.json())
-        .then(data => setWeather(data));
-    }
-  }, [location]);
-
+  // Handle fetching random quote or daily quote
   const fetchQuote = async (type: 'random' | 'today') => {
     try {
       const response = await fetch('/api/zenquote');
@@ -63,7 +29,6 @@ export default function WeatherMotivator() {
   useEffect(() => {
     fetchQuote('random');
   }, []);
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
@@ -92,9 +57,13 @@ export default function WeatherMotivator() {
         {/* Left Column */}
         <div className="flex flex-col gap-4 w-1/2">
           {locationError && <p className="text-red-500">{locationError}</p>}
-          <WeatherCard title="Present Weather" content={weather?.weather?.[0]?.description || 'Loading...'} />
-          <WeatherCard title="Temperature" content={weather?.main?.temp ? `${weather.main.temp} °C` : 'Loading...'} />
-          <WeatherCard title="Weather for Next 7 Days" content="(To be implemented with OneCall API)" />
+          <Card>
+            <CardContent>
+              <WeatherImage />
+              <TodaySummary />
+              <UpcomingForecast />
+            </CardContent>
+          </Card>
         </div>
 
         {/* Right Column */}
@@ -124,4 +93,6 @@ export default function WeatherMotivator() {
       </footer>
     </div>
   );
-}
+};
+
+export default Page;
