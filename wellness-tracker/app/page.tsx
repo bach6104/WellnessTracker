@@ -7,14 +7,12 @@ import { UpcomingForecast } from '@/components/Weather/UpcomingForecast';
 import { Button } from '@/components/ui/button';
 import { CardContent, Card } from '@/components/ui/card';
 import useWeatherData from '@/components/hooks/useWeatherData';
-// import { fetchQuote } from '@/components/hooks/useQuote';
 
 const Page = () => {
   const { weatherData, loading, error } = useWeatherData();
   const [quote, setQuote] = useState<string>('');
   const [locationError, setLocationError] = useState('');
 
-  // Handle fetching random quote or daily quote
   const fetchQuote = async (type: 'random' | 'today') => {
     try {
       const response = await fetch('/api/zenquote');
@@ -29,27 +27,26 @@ const Page = () => {
   useEffect(() => {
     fetchQuote('random');
   }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
-      <header className="w-full p-4 flex justify-between items-center border-b bg-white sticky top-0 z-50">
-        <h1 className="text-xl font-bold">🌤️ Get Weather</h1>
-        <nav className="flex-1 flex justify-center space-x-4">
-          <a href="#" className="hover:underline">Home</a>
+      <header className="w-full p-4 flex items-center justify-between border-b bg-white sticky top-0 z-50">
+        <div className="flex items-center gap-4">
+          <h1 className="text-xl font-bold">🌤️ WeatherMinds</h1>
+        </div>
+        <nav className="absolute left-1/2 transform -translate-x-1/2">
+          <a href="#hero" className="hover:underline">Home</a>
         </nav>
         <div>
-          <a href="#" className="hover:underline">About</a>
+          <a href="#about" className="hover:underline">About Us</a>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="grid grid-cols-2 gap-4 p-6">
-        <Card>
-          <CardContent className="p-4">PIC</CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">PIC</CardContent>
-        </Card>
+      <section id="hero" className="flex flex-col items-center justify-center text-center bg-gradient-to-r from-blue-200 to-cyan-200 p-12 mb-6">
+        <h1 className="text-4xl font-bold mb-4">WeatherMinds</h1>
+        <p className="text-lg max-w-2xl">Discover your daily weather and a touch of motivation. WeatherMinds brings you real-time forecasts alongside uplifting quotes to keep your spirit bright and your day inspired.</p>
       </section>
 
       {/* Main Content Section */}
@@ -58,10 +55,18 @@ const Page = () => {
         <div className="flex flex-col gap-4 w-1/2">
           {locationError && <p className="text-red-500">{locationError}</p>}
           <Card>
-            <CardContent>
-              <WeatherImage />
-              <TodaySummary />
-              <UpcomingForecast />
+            <CardContent className="flex flex-col items-center gap-6">
+              <div className="flex w-full max-w-2xl gap-6">
+                <div className="w-1/2">
+                  <WeatherImage />
+                </div>
+                <div className="w-1/2">
+                  <TodaySummary />
+                </div>
+              </div>
+              <div className="w-full max-w-2xl">
+                <UpcomingForecast />
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -73,7 +78,6 @@ const Page = () => {
               <h2 className="font-semibold mb-2">Quotes:</h2>
               <p className="mb-4">{quote || 'Loading...'}</p>
               <div className="flex gap-2">
-                <Button onClick={() => fetchQuote('random')}>Random Quote</Button>
                 <Button onClick={() => fetchQuote('today')}>Daily Quote</Button>
               </div>
             </CardContent>
@@ -81,10 +85,23 @@ const Page = () => {
         </div>
       </main>
 
-      {/* About Me Section */}
-      <section className="p-6 border-t">
-        <h2 className="text-lg font-semibold mb-2">About Me</h2>
-        <p>This site was built to inspire people through the weather and quotes. Made with love using OpenWeather and ZenQuotes APIs.</p>
+      {/* About Us Section */}
+      <section id="about" className="p-6 border-t flex flex-col gap-12">
+        <h2 className="text-3xl font-semibold text-center mb-8">About Us</h2>
+        <div className="flex flex-col md:flex-row gap-6 justify-center">
+          <Card className="w-full md:w-1/2">
+            <CardContent className="flex flex-col items-center p-6">
+              <img src="/profile1.jpg" alt="Profile 1" className="w-32 h-32 rounded-full object-cover mb-4" />
+              <p className="text-center">Hi! I'm Alex, a software developer passionate about bringing weather and motivation together into a daily experience for users everywhere.</p>
+            </CardContent>
+          </Card>
+          <Card className="w-full md:w-1/2">
+            <CardContent className="flex flex-col items-center p-6">
+              <img src="/profile2.jpg" alt="Profile 2" className="w-32 h-32 rounded-full object-cover mb-4" />
+              <p className="text-center">Hello! I'm Taylor, a designer who loves creating beautiful and uplifting interfaces that can brighten your day just like the weather and a good quote can!</p>
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
       {/* Footer */}

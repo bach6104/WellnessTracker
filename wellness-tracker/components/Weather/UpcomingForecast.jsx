@@ -12,7 +12,7 @@ export const UpcomingForecast = () => {
         return <div className="text-center text-gray-500">Forecast data not available</div>;
     }
 
-    const daily = Object.values(weatherData.daily).slice(1, 6); // Convert to array and slice to get the next 5 days
+    const daily = Object.values(weatherData.daily).slice(1, 8); // Convert to array and slice to get the next 5 days
 
     return (
         <div className="p-6 bg-yellow-100 rounded-xl shadow-md space-y-4">

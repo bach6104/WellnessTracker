@@ -5,7 +5,7 @@ const useWeatherData = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const apiKey = "bf0f9569cc35369dabefb0cd17f24f66"; // Make sure your API key is correct
+    const apiKey = "bf0f9569cc35369dabefb0cd17f24f66";
 
     useEffect(() => {
         if (navigator.geolocation) {
