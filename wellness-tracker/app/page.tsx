@@ -78,7 +78,7 @@ const Page = () => {
               <h2 className="font-semibold mb-2">Quotes:</h2>
               <p className="mb-4">{quote || 'Loading...'}</p>
               <div className="flex gap-2">
-                <Button onClick={() => fetchQuote('today')}>Daily Quote</Button>
+                <Button className="cursor-pointer" onClick={() => fetchQuote('today')}>Daily Quote</Button>
               </div>
             </CardContent>
           </Card>
@@ -97,8 +97,8 @@ const Page = () => {
           </Card>
           <Card className="w-full md:w-1/2">
             <CardContent className="flex flex-col items-center p-6">
-              <img src="/profile2.jpg" alt="Profile 2" className="w-32 h-32 rounded-full object-cover mb-4" />
-              <p className="text-center">Hello! I'm Taylor, a designer who loves creating beautiful and uplifting interfaces that can brighten your day just like the weather and a good quote can!</p>
+              <img src="/images/Headshot.png" alt="Profile 2" className="w-32 h-32 rounded-full object-cover mb-4" />
+              <p className="text-center">Hey! My name's Luke, and I am currently a senior at Michigan State University. I am very interested in front-end web development, and I love to create sleek user interfaces. I hope you enjoy our site!</p>
             </CardContent>
           </Card>
         </div>

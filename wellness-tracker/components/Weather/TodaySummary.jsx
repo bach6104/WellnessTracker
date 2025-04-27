@@ -1,5 +1,5 @@
 import React from 'react';
-import useWeatherData from '../hooks/useWeatherData'; // Ensure correct import path
+import useWeatherData from '../hooks/useWeatherData';
 
 export const TodaySummary = () => {
     const { weatherData, loading, error } = useWeatherData();
@@ -7,7 +7,7 @@ export const TodaySummary = () => {
     if (loading) return <div className="text-center text-gray-500">Loading today's weather...</div>;
     if (error) return <div className="text-center text-red-500">Error: {error}</div>;
 
-    // Check if weatherData and current are available
+    // If weather data is not available
     if (!weatherData || !weatherData.current) {
         return <div className="text-center text-gray-500">Weather data not available</div>;
     }
