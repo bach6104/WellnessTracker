@@ -9,11 +9,10 @@ import { CardContent, Card } from '@/components/ui/card';
 import useWeatherData from '@/components/hooks/useWeatherData';
 
 const Page = () => {
-  const { weatherData, loading, error } = useWeatherData();
   const [quote, setQuote] = useState<string>('');
   const [locationError, setLocationError] = useState('');
 
-  const fetchQuote = async (type: 'random' | 'today') => {
+  const fetchQuote = async (type: 'today') => {
     try {
       const response = await fetch('/api/zenquote');
       const data = await response.json();
@@ -23,10 +22,6 @@ const Page = () => {
       setQuote('Failed to fetch quote.');
     }
   };
-
-  useEffect(() => {
-    fetchQuote('random');
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -91,8 +86,8 @@ const Page = () => {
         <div className="flex flex-col md:flex-row gap-6 justify-center">
           <Card className="w-full md:w-1/2">
             <CardContent className="flex flex-col items-center p-6">
-              <img src="/profile1.jpg" alt="Profile 1" className="w-32 h-32 rounded-full object-cover mb-4" />
-              <p className="text-center">Hi! I'm Alex, a software developer passionate about bringing weather and motivation together into a daily experience for users everywhere.</p>
+              <img src="/images/bach.jpeg" alt="Profile 1" className="w-32 h-32 rounded-full object-cover mb-4" />
+              <p className="text-center">Hi! My name is Bach, I am a Junior majoring in Computer Science at Michigan State University. I love travelling and creating new meaningful application. Hope you all enjoy our product!</p>
             </CardContent>
           </Card>
           <Card className="w-full md:w-1/2">
