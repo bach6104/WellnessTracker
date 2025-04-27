@@ -25,7 +25,7 @@ export const WeatherImage = () => {
     };
 
     const weatherType = weatherData.current.weather[0].main;
-    const animationSrc = weatherAnimations[weatherType] || '/animations/sunny.lottie';
+    const animationSrc = weatherAnimations[weatherType] || '/animations/clear.lottie';
 
     return (
         <div className="flex flex-col items-center p-4 bg-blue-100 rounded-xl shadow-md">
