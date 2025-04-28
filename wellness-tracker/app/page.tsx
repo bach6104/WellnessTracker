@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TodaySummary } from '@/components/Weather/TodaySummary';
 import { WeatherImage } from '@/components/Weather/WeatherImage';
 import { UpcomingForecast } from '@/components/Weather/UpcomingForecast';
 import { Button } from '@/components/ui/button';
 import { CardContent, Card } from '@/components/ui/card';
-import useWeatherData from '@/components/hooks/useWeatherData';
 
 const Page = () => {
   const [quote, setQuote] = useState<string>('');
-  const [locationError, setLocationError] = useState('');
 
-  const fetchQuote = async (type: 'today') => {
+  const fetchQuote = async () => {
     try {
       const response = await fetch('/api/zenquote');
       const data = await response.json();
@@ -48,7 +46,6 @@ const Page = () => {
       <main className="flex flex-1 p-6 gap-6">
         {/* Left Column */}
         <div className="flex flex-col gap-4 w-1/2">
-          {locationError && <p className="text-red-500">{locationError}</p>}
           <Card>
             <CardContent className="flex flex-col items-center gap-6">
               <div className="flex w-full max-w-2xl gap-6">
@@ -73,7 +70,7 @@ const Page = () => {
               <h2 className="font-semibold mb-2">Quotes:</h2>
               <p className="mb-4">{quote || 'Loading...'}</p>
               <div className="flex gap-2">
-                <Button className="cursor-pointer" onClick={() => fetchQuote('today')}>Daily Quote</Button>
+                <Button className="cursor-pointer" onClick={fetchQuote}>Daily Quote</Button>
               </div>
             </CardContent>
           </Card>
@@ -87,13 +84,13 @@ const Page = () => {
           <Card className="w-full md:w-1/2">
             <CardContent className="flex flex-col items-center p-6">
               <img src="/images/bach.jpeg" alt="Profile 1" className="w-32 h-32 rounded-full object-cover mb-4" />
-              <p className="text-center">Hi! My name is Bach, I am a Junior majoring in Computer Science at Michigan State University. I love travelling and creating new meaningful application. Hope you all enjoy our product!</p>
+              <p className="text-center">Hi! My name is Bach, I am a Junior majoring in Computer Science at Michigan State University. I love travelling and creating new meaningful applications. Hope you all enjoy our product!</p>
             </CardContent>
           </Card>
           <Card className="w-full md:w-1/2">
             <CardContent className="flex flex-col items-center p-6">
               <img src="/images/Headshot.png" alt="Profile 2" className="w-32 h-32 rounded-full object-cover mb-4" />
-              <p className="text-center">Hey! My name's Luke, and I am currently a senior at Michigan State University. I am very interested in front-end web development, and I love to create sleek user interfaces. I hope you enjoy our site!</p>
+              <p className="text-center">Hey! My name&apos;s Luke, and I am currently a senior at Michigan State University. I am very interested in front-end web development, and I love to create sleek user interfaces. I hope you enjoy our site!</p>
             </CardContent>
           </Card>
         </div>
